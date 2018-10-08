@@ -1,0 +1,4 @@
+echo Ю⎔⎔
+if [[ $1 == -v* ]]; then
+  echo the complete compiler toolchain for Юᓂ곧⎔ 
+fi

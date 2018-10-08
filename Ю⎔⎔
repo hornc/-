@@ -1,0 +1,57 @@
+#!/bin/bash
+
+HEADER=$(cat <<HEADER
+#include <stdio.h>
+#define писать(...) printf(__VA_ARGS__)
+HEADER
+)
+
+SUBS=$(cat <<SUBS
+    ⌂→int main
+    «→(
+    »→)
+    ☹→{
+    ☺→}
+    “→\"
+    ”→\"
+    ।→;
+    ␊→\\\n
+SUBS
+)
+
+OCTAL=☰☱☲☳☴☵☶☷
+DECIMAL=᠐᠑᠒᠓᠔᠕᠖᠗᠘᠙
+
+numlist () {
+  out='';i=0
+  for char in $(fold -w1 <<<$1); do
+    out+=$"${char}→$((i++))\n"
+  done
+echo -e "$out"
+}
+
+used () {
+  sed 's/^ *\([^→]\)→\(.*\)$/s\/\1\/\2\/g;/g;' <<<"$1"
+}
+
+main () {
+  # Get Юᓂ곧⎔ source file to compile + options to pass to gcc
+  echo "⎔⎔ing $1 ..."
+  source=$(cat $1)
+  shift
+
+  replacements=$(used "$SUBS")
+  replacements+=$(used "$(numlist $OCTAL)")
+  replacements+=$(used "$(numlist $DECIMAL)")
+
+  # octal digit escaping
+  source="$(sed 's/⁌\(['"$OCTAL"']\)/\\\1/g;s/⁍//g;' <<<"$source")"
+
+  csource="$HEADER"$'\n'"$(sed "${replacements}" <<<"$source")"
+
+  if gcc $@ -xc <(echo "$csource"); then
+    echo Done!
+  fi
+}
+
+main $@
