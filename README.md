@@ -45,9 +45,9 @@ OR (wimpmode) these are literal ASCII `?` question marks
     ./??? examples/hello-world.? -o hello-word
     ./??? examples/??-?.? -o 99-beers
 
-Which will create an executable for your system named `hello-world`
+Which will create an executable for your system named `hello-world` / `99-beers` / whatever you choose.
 
-You can run the complied executable as normal with
+You can run the compiled executable as normal with
 
     ./hello-world
 
