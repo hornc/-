@@ -7,7 +7,7 @@ HEADER
 )
 
 SUBS=$(cat <<SUBS
-    ⌂→int main
+    ⌂→ℤmain
     «→(
     »→)
     ☹→{
@@ -15,8 +15,24 @@ SUBS=$(cat <<SUBS
     “→\"
     ”→\"
     ।→;
+    ←→=
+    ℤ→int 
     ␊→\\\n
 SUBS
+)
+
+NEW=$(cat <<NEW
+    ≤→<=
+    ≥→>=
+    ≨→<
+    ≩→>
+    ﹪ℤ→%i
+    ،→,
+    ﹪→%
+    ∀→for 
+    ∆→++
+    ∇→--
+NEW
 )
 
 OCTAL=☰☱☲☳☴☵☶☷
@@ -31,7 +47,7 @@ echo -e "$out"
 }
 
 used () {
-  sed 's/^ *\([^→]\)→\(.*\)$/s\/\1\/\2\/g;/g;' <<<"$1"
+  sed 's/^ *\([^→]*\)→\(.*\)$/s\/\1\/\2\/g;/g;' <<<"$1"
 }
 
 main () {
@@ -40,7 +56,8 @@ main () {
   source=$(cat $1)
   shift
 
-  replacements=$(used "$SUBS")
+  replacements+=$(used "$NEW")
+  replacements+=$(used "$SUBS")
   replacements+=$(used "$(numlist $OCTAL)")
   replacements+=$(used "$(numlist $DECIMAL)")
 

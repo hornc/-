@@ -40,6 +40,11 @@ OR (wimpmode)
 
     ./$(./uname) examples/hello-world.$(./uname|cut -c3) -o hello-world
 
+OR (wimpmode) these are literal ASCII `?` question marks
+
+    ./??? examples/hello-world.? -o hello-word
+    ./??? examples/??-?.? -o 99-beers
+
 Which will create an executable for your system named `hello-world`
 
 You can run the complied executable as normal with
