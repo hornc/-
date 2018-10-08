@@ -9,7 +9,7 @@ You can now compile and run the original Юᓂ곧⎔ example hello-world using t
 
 Not all the specified syntax rules are implemented yet in this early version. Writing further code in Юᓂ곧⎔ will most likely require expanding the language. 
 
-Work is in progress on adding further support for the canonical syntax, and fleshing out further function names and practical details. Hopefully this small start will see an increase in the ammount of software written in Юᓂ곧⎔!
+Work is in progress on adding further support for the canonical syntax, and fleshing out further function names and practical details. Hopefully this small start will see an increase in the amount of software written in Юᓂ곧⎔!
 
 ## Requirements
 * bash
