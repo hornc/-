@@ -40,7 +40,7 @@ DECIMAL=᠐᠑᠒᠓᠔᠕᠖᠗᠘᠙
 
 numlist () {
   out='';i=0
-  for char in $(fold -w1 <<<$1); do
+  for char in $(sed 's/\(.\)/\1\n/g' <<<$1); do
     out+=$"${char}→$((i++))\n"
   done
 echo -e "$out"
