@@ -2,4 +2,5 @@ if [ $1 = "--strict" ];then
   strict=" "
   shift
 fi
-! egrep --colour=auto -n "\t|[!-~$strict]" $@
+
+! LC_ALL=POSIX egrep --colour=auto -n "\t|[!-~$strict]" $@
