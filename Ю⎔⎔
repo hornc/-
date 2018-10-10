@@ -40,7 +40,8 @@ DECIMAL=᠐᠑᠒᠓᠔᠕᠖᠗᠘᠙
 
 numlist () {
   out='';i=0
-  for char in $(sed 's/\(.\)/\1\n/g' <<<$1); do
+  for char in $(sed "s/\(.\)/\1 \
+/g" <<<$1); do
     out+=$"${char}→$((i++))\n"
   done
 echo -e "$out"
@@ -48,6 +49,13 @@ echo -e "$out"
 
 used () {
   sed 's/^ *\([^→]*\)→\(.*\)$/s\/\1\/\2\/g;/g;' <<<"$1"
+}
+
+ucn_ids () {
+  for ident in $(LC_ALL=POSIX egrep '^#|int.*=' <<<"$1" |LC_ALL=POSIX  egrep -o '[^ -~]*'); do
+    rep=$(echo -n $(iconv -futf8 -tutf16be <<<$ident) | xxd -p | sed 's/\([0-9a-f]\{4\}\)/\\\\u\1/g')
+    csource="$(sed "s/$ident/$rep/g" <<<"$csource")"
+  done
 }
 
 main () {
@@ -66,7 +74,9 @@ main () {
 
   csource="$HEADER"$'\n'"$(sed "${replacements}" <<<"$source")"
 
-  if gcc $@ -xc <(echo "$csource"); then
+  ucn_ids "$csource"
+
+  if gcc $@ -fextended-identifiers -std=c99 -w -xc <(echo "$csource"); then
     echo Done!
   fi
 }
