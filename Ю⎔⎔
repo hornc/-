@@ -3,6 +3,7 @@
 HEADER=$(cat <<HEADER
 #include <stdio.h>
 #define писать(...) printf(__VA_ARGS__)
+#define получатзнак() getchar()
 HEADER
 )
 
@@ -14,7 +15,12 @@ SUBS=$(cat <<SUBS
     ☺→}
     “→\"
     ”→\"
+    ❝→\/*
+    ❞→*\/
+    ¦→,
     ।→;
+    −→-
+    ×→*
     ←→=
     ℤ→int 
     ␊→\\\n
@@ -27,11 +33,14 @@ NEW=$(cat <<NEW
     ≨→<
     ≩→>
     ﹪ℤ→%i
+    ﹪ቁምፊ→%c
     ،→,
     ﹪→%
-    ∀→for 
+    ¿→if
+    ∀→for
     ∆→++
     ∇→--
+    ቁምፊ→char
 NEW
 )
 
@@ -52,7 +61,7 @@ used () {
 }
 
 ucn_ids () {
-  for ident in $(LC_ALL=POSIX egrep '^#|int.*=' <<<"$1" |LC_ALL=POSIX  egrep -o '[^ -~]*'); do
+  for ident in $(LC_ALL=POSIX egrep '^#|int|char' <<<"$1" |LC_ALL=POSIX  egrep -o '[^ -~]*'); do
     rep=$(echo -n $(iconv -futf8 -tutf16be <<<$ident) | xxd -p | sed 's/\([0-9a-f]\{4\}\)/\\\\u\1/g')
     csource="$(sed "s/$ident/$rep/g" <<<"$csource")"
   done
